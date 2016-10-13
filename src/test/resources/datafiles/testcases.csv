@@ -1,0 +1,7 @@
+test case name,test steps,action,action values,locator,locator values,page,suites,run
+Verify home page title,open home page url,openBrowser,https://github.com/,,,srp,critical,na
+na,verify title,verifyTitleContains,How people build software,na,na,na,na,na
+Search project,open home page url,openBrowser,https://github.com/,,,homepage,sanity,na
+na,search for projects,enterText,myproject,name,q,na,na,na
+na,click enter button,pressEnterKey,,name,q,na,na,na
+na,verify valid search result coming,verifyUrlContains,q=myproject,na,na,na,na,na
