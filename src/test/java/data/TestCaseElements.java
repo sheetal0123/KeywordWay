@@ -6,10 +6,10 @@ package data;
  */
 public class TestCaseElements {
 
-	String testName, testSteps, actionName, actionValues, locatorName, locatorValues, pageName, suitesName, run;
+	String testName, testSteps, actionName, actionValues, locatorName, locatorValues, pageName, suitesName, run, results;
 
 	public TestCaseElements(String testName, String testSteps, String actionName, String actionValues,
-			String locatorName, String locatorValues, String pageName, String suitesName,String run) {
+			String locatorName, String locatorValues, String pageName, String suitesName, String run, String result) {
 		this.testName = testName;
 		this.testSteps = testSteps;
 		this.actionName = actionName;
@@ -19,6 +19,7 @@ public class TestCaseElements {
 		this.pageName = pageName;
 		this.suitesName = suitesName;
 		this.run = run;
+		this.results = results;
 	}
 
 	public String getTestName() {
@@ -52,9 +53,13 @@ public class TestCaseElements {
 	public String getSuitesName() {
 		return suitesName;
 	}
-	
+
 	public String getRun() {
 		return run;
+	}
+
+	public String getResults() {
+		return results;
 	}
 
 }

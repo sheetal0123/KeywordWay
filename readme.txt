@@ -13,9 +13,8 @@ FEATURE:
 6. to run group of functionality, no need to write test case from scratch
    e.g go to search page
    apply price filter 100 200
-7. reports
+7. reports  - update excel with result in each step
 8. run from mvn commands
-9. should handle large test cases - no out of memory
-10. create property file to get basic things - driver, base url
-11. rather than creating all row object, we can create only required list and run it
+9. should handle large test cases - no out of memory  						-done
+10. create property file to get basic things - driver, base url				- suite to run etc
    

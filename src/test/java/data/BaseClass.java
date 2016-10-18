@@ -3,57 +3,71 @@ package data;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 
 public class BaseClass {
-	
+
 	WebDriver driver;
-	
-	public BaseClass(){
+
+	public BaseClass() {
 		driver = new FirefoxDriver();
 	}
-	
-	public void openUrl(String url){
+
+	public void quitDriver() {
+		driver.quit();
+	}
+
+	public WebElement getWebElement(String locator, String locatorValue) {
+
+		WebElement webElement = null;
+
+		switch (locator) {
+		case "id":
+			webElement = driver.findElement(By.id(locatorValue));
+			break;
+		case "name":
+			webElement = driver.findElement(By.name(locatorValue));
+			break;
+		case "xpath":
+			webElement = driver.findElement(By.xpath(locatorValue));
+			break;
+		case "css":
+			webElement = driver.findElement(By.cssSelector(locatorValue));
+			break;
+		case "className":
+			webElement = driver.findElement(By.className(locatorValue));
+			break;
+		case "linkText":
+			webElement = driver.findElement(By.linkText(locatorValue));
+			break;
+		}
+		return webElement;
+	}
+
+	public void openUrl(String url) {
 		driver.get(url);
 	}
-	
-	public void sendKeys(String locator, String locatorValue, String keyword){
-		if(locator.equals("id"))
-			driver.findElement(By.id(locatorValue)).sendKeys(keyword);
-		else if(locator.equals("name"))
-			driver.findElement(By.name(locatorValue)).sendKeys(keyword);
-		else if(locator.equals("xpath"))
-			driver.findElement(By.xpath(locatorValue)).sendKeys(keyword);
-		else{
-			System.out.println("INVALID LOCATOR");
-		}
+
+	public void sendKeys(WebElement webElement, String keyword) {
+		webElement.sendKeys(keyword);
 	}
-	
-	
-	public void click(String locator){
-		if(locator.equals("id"))
-			driver.findElement(By.id(locator)).click();
+
+	public void click(WebElement webElement) {
+		webElement.click();
 	}
-	
-	public void verifyUrlContains(String url){
+
+	public void pressEnterKey(WebElement webElement) {
+		webElement.sendKeys(Keys.ENTER);
+	}
+
+	public void verifyUrlContains(String url) {
 		Assert.assertTrue(driver.getCurrentUrl().contains(url), "Wrong URL");
 	}
-	
-	public void verifyTitleContains(String title){
+
+	public void verifyTitleContains(String title) {
 		Assert.assertTrue(driver.getTitle().contains(title), "Wrong Title");
-	}
-	
-	//On which element we need to press enter
-	public void pressEnterKey(String locator,String locatorValue){
-		if(locator.equals("name"))
-			driver.findElement(By.name(locatorValue)).sendKeys(Keys.ENTER);
-	}
-	
-	
-	public void quitDriver(){
-		driver.quit();
 	}
 
 }
