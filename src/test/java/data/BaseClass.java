@@ -66,8 +66,14 @@ public class BaseClass {
 		Assert.assertTrue(driver.getCurrentUrl().contains(url), "Wrong URL");
 	}
 
-	public void verifyTitleContains(String title) {
-		Assert.assertTrue(driver.getTitle().contains(title), "Wrong Title");
+//	public void verifyTitleContains(String title) {
+//		Assert.assertTrue(driver.getTitle().contains(title), "Wrong Title");
+//	}
+
+	
+	public boolean verifyTitleContains(String title) {
+		return driver.getTitle().contains(title);
+//		Assert.assertTrue(driver.getTitle().contains(title), "Wrong Title");
 	}
 
 }

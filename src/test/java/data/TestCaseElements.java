@@ -19,7 +19,7 @@ public class TestCaseElements {
 		this.pageName = pageName;
 		this.suitesName = suitesName;
 		this.run = run;
-		this.results = results;
+		//this.results = results;
 	}
 
 	public String getTestName() {
@@ -62,4 +62,9 @@ public class TestCaseElements {
 		return results;
 	}
 
+	public void setResults(String results) {
+		this.results = results;
+	}
+
+	
 }

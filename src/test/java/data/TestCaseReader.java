@@ -44,6 +44,7 @@ public class TestCaseReader {
 			}
 			counter++;
 		}
+		br.close();
 		System.out.println("Total List Size: " + lsAllCases.size());
 		
 		return lsAllCases;
@@ -150,20 +151,26 @@ public class TestCaseReader {
 		System.out.println("List Size to run: " + ls.size());
 		
 		for (int i = 0; i < ls.size(); i++) {
+			String testcaseName =ls.get(i).getTestName();
 			String actionName = ls.get(i).getActionName();
 			String actionValue = ls.get(i).getActionValues();
 			String locatorName = ls.get(i).getLocatorName();
 			String locatorVal = ls.get(i).getLocatorValues();
 			
+			boolean res = false;
+
 			switch(actionName){
 				case "openBrowser": base.openUrl(actionValue);break;
 				case "enterText": base.sendKeys(base.getWebElement(locatorName, locatorVal),actionValue);break;
 				case "pressEnterKey" : base.pressEnterKey(base.getWebElement(locatorName, locatorVal));break;
-				case "verifyTitleContains" : base.verifyTitleContains(ls.get(i).getActionValues());break;
+				case "verifyTitleContains" : res = base.verifyTitleContains(ls.get(i).getActionValues());break;
 				case "verifyUrlContains" : base.verifyUrlContains(actionValue);break;
 				default: throw new IllegalStateException("Given action name in csv is not matching with any of the existing action name");
 			}
-	
+			
+			if(testcaseName!= "na"){
+				System.out.println(res);
+			}
 		}
 	}
 
@@ -173,7 +180,7 @@ public class TestCaseReader {
 
 		//runner
 		//obj.runTest(lsAllCases); 
-		obj.runTest(obj.getSuitesList("sanity")); 
+		obj.runTest(obj.getSuitesList("critical")); 
 		//obj.runTest(obj.getPageList("searchpage")); 
 		
 		
