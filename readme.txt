@@ -18,3 +18,11 @@ FEATURE:
 9. should handle large test cases - no out of memory  						-done
 10. create property file to get basic things - driver, base url				- suite to run etc
    
+   
+   
+   
+Note:
+currently we are writing low level test cases in testcases sheet like enter text,click etc   
+along with these steps we should also have high level steps like login into site, create account with details etc which are high level modular methods
+
+

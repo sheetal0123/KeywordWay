@@ -5,10 +5,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.openqa.selenium.WebElement;
 
 public class TestCaseReader {
 
@@ -144,11 +144,15 @@ public class TestCaseReader {
 	 * @throws IOException 
 	 */
 	public void runTest(List<TestCaseElements> ls) throws IOException {
+		
+		Map<String,String> summaryReport = new LinkedHashMap<>();
+		
 		if(ls.size() == 0){
 			ls = getAllObjectList();
 		}
 		
 		System.out.println("List Size to run: " + ls.size());
+		//boolean isActualTestCaseName = false;
 		
 		for (int i = 0; i < ls.size(); i++) {
 			String testcaseName =ls.get(i).getTestName();
@@ -156,21 +160,52 @@ public class TestCaseReader {
 			String actionValue = ls.get(i).getActionValues();
 			String locatorName = ls.get(i).getLocatorName();
 			String locatorVal = ls.get(i).getLocatorValues();
+			String testStep = ls.get(i).getTestSteps(); 
 			
-			boolean res = false;
-
+			boolean testStepResult = false;
+			boolean isTestStepIsAVerificationStep = false;
+			String result = null;
+			
 			switch(actionName){
 				case "openBrowser": base.openUrl(actionValue);break;
 				case "enterText": base.sendKeys(base.getWebElement(locatorName, locatorVal),actionValue);break;
 				case "pressEnterKey" : base.pressEnterKey(base.getWebElement(locatorName, locatorVal));break;
-				case "verifyTitleContains" : res = base.verifyTitleContains(ls.get(i).getActionValues());break;
-				case "verifyUrlContains" : base.verifyUrlContains(actionValue);break;
+				case "verifyTitleContains" : testStepResult = base.verifyTitleContains(ls.get(i).getActionValues());break;
+				case "verifyUrlContains" : testStepResult = base.verifyUrlContains(actionValue);break;
 				default: throw new IllegalStateException("Given action name in csv is not matching with any of the existing action name");
 			}
 			
-			if(testcaseName!= "na"){
-				System.out.println(res);
+			//we will check pass/fail for steps which are start with "verify ..."
+			if(testStep.startsWith("verify ")){
+				isTestStepIsAVerificationStep = true;
 			}
+			
+			
+			//add result to an new list1 : testcaseName, result (if any of test step get failed)
+			//add result to an new list2 : testcaseName, testSteps, result
+			if(testcaseName!= "na"){
+				//isActualTestCaseName = true;
+				summaryReport.put(testcaseName, "NO VERIFICATION STEP");
+				System.out.println("LHM: "+summaryReport);
+			}
+			
+			
+			if(isTestStepIsAVerificationStep){
+				if(testStepResult){
+					result="PASS";
+				}else{
+					result="FAIL";
+				}
+				
+				
+				//fetched last entered key-value pair and updated the value with PASS or FAIL
+				Object lastTestCaseNameWithValue = summaryReport.entrySet().toArray()[summaryReport.size() -1];
+				String lastTestCaseName = lastTestCaseNameWithValue.toString().split("=")[0];
+				summaryReport.put(lastTestCaseName, result);
+				System.out.println("Updated LHM: "+summaryReport);
+			}
+			
+			
 		}
 	}
 
@@ -178,9 +213,9 @@ public class TestCaseReader {
 	public static void main(String[] args) throws IOException {
 		TestCaseReader obj = new TestCaseReader();
 
-		//runner
-		//obj.runTest(lsAllCases); 
-		obj.runTest(obj.getSuitesList("critical")); 
+		//different runner type
+		obj.runTest(lsAllCases);     //to run all test cases
+		//obj.runTest(obj.getSuitesList("critical")); 
 		//obj.runTest(obj.getPageList("searchpage")); 
 		
 		

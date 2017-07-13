@@ -12,6 +12,8 @@ public class BaseClass {
 	WebDriver driver;
 
 	public BaseClass() {
+		String path = System.getProperty("user.dir");
+		System.setProperty("webdriver.gecko.driver", path + "/src/test/resources/drivers/geckodriver");
 		driver = new FirefoxDriver();
 	}
 
@@ -62,18 +64,23 @@ public class BaseClass {
 		webElement.sendKeys(Keys.ENTER);
 	}
 
-	public void verifyUrlContains(String url) {
-		Assert.assertTrue(driver.getCurrentUrl().contains(url), "Wrong URL");
+	public boolean verifyUrlContains(String url) {
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		//Assert.assertTrue(driver.getCurrentUrl().contains(url), "Wrong URL");
+		return driver.getCurrentUrl().contains(url);
 	}
 
-//	public void verifyTitleContains(String title) {
-//		Assert.assertTrue(driver.getTitle().contains(title), "Wrong Title");
-//	}
+	// public void verifyTitleContains(String title) {
+	// Assert.assertTrue(driver.getTitle().contains(title), "Wrong Title");
+	// }
 
-	
 	public boolean verifyTitleContains(String title) {
 		return driver.getTitle().contains(title);
-//		Assert.assertTrue(driver.getTitle().contains(title), "Wrong Title");
+		// Assert.assertTrue(driver.getTitle().contains(title), "Wrong Title");
 	}
 
 }

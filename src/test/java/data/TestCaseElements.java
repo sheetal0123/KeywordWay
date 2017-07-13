@@ -1,7 +1,7 @@
 package data;
 
 /**
- * This class will create objects for each row from sheet
+ * This class will create objects for each row from testcases sheet
  *
  */
 public class TestCaseElements {
